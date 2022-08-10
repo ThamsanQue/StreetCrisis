@@ -22,7 +22,7 @@ export default function Home() {
               <h1>Get ready for A Street Couture Experience.</h1>
               <p>
                 World coming soon. Please check back to know more. Shoot us an
-                email if you're curious.
+                email if you&apos;re curious.
               </p>
             </div>
             <a href="mailto:streetcrisis01@gmail.com">
