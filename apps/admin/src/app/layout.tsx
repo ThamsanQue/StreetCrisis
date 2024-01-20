@@ -1,14 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { cn } from "@streetcrisis/ui";
-import { ThemeProvider, ThemeToggle } from "@streetcrisis/ui/theme";
-import { Toaster } from "@streetcrisis/ui/toast";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
+
+import { cn } from "@streetcrisis/ui";
+import { ThemeProvider } from "@streetcrisis/ui/theme";
+import { Toaster } from "@streetcrisis/ui/toast";
 
 import { env } from "~/env";
 import { TRPCReactProvider } from "~/trpc/react";
 
-import "~/app/globals.css";
+import "@streetcrisis/ui/globals";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
   title: "Create T3 Turbo",
   description: "Simple monorepo with shared backend for web & mobile apps",
   openGraph: {
-    title: "Create T3 Turbo",
+    title: "StreetCrisis Admin",
     description: "Simple monorepo with shared backend for web & mobile apps",
     url: "https://create-t3-turbo.vercel.app",
     siteName: "Create T3 Turbo",
@@ -50,9 +51,6 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <TRPCReactProvider>{props.children}</TRPCReactProvider>
-          <div className="absolute bottom-4 right-4">
-            <ThemeToggle />
-          </div>
           <Toaster />
         </ThemeProvider>
       </body>
