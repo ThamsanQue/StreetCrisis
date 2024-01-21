@@ -12,7 +12,15 @@
     "./label": "./src/components/ui/label.tsx",
     "./theme": "./src/theme.tsx",
     "./toast": "./src/toast.tsx",
-    "./navbar": "./src/components/navbar.tsx"
+    "./navbar": "./src/components/navbar.tsx",
+    "./card": "./src/components/ui/card.tsx",
+    "./dialog": "./src/components/ui/dialog.tsx",
+    "./separator": "./src/components/ui/separator.tsx",
+    "./popover": "./src/components/ui/popover.tsx",
+    "./select": "./src/components/ui/select.tsx",
+    "./checkbox": "./src/components/ui/checkbox.tsx",
+    "./alert": "./src/components/ui/alert.tsx",
+    "./heading": "./src/components/ui/heading.tsx"
   },
   "license": "MIT",
   "scripts": {
