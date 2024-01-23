@@ -20,7 +20,8 @@
     "./select": "./src/components/ui/select.tsx",
     "./checkbox": "./src/components/ui/checkbox.tsx",
     "./alert": "./src/components/ui/alert.tsx",
-    "./heading": "./src/components/ui/heading.tsx"
+    "./heading": "./src/components/ui/heading.tsx",
+    "./command": "./src/components/ui/command.tsx"
   },
   "license": "MIT",
   "scripts": {
@@ -43,6 +44,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@tanstack/react-table": "^8.11.6",
     "class-variance-authority": "^0.7.0",
+    "cmdk": "^0.2.0",
     "embla-carousel-react": "8.0.0-rc19",
     "lucide-react": "^0.312.0",
     "next-themes": "^0.2.1",
