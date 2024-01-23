@@ -11,6 +11,8 @@ import { TRPCReactProvider } from "~/trpc/react";
 
 import "@streetcrisis/ui/globals";
 
+import { ModalProvider } from "providers/modal-provider";
+
 export const metadata: Metadata = {
   metadataBase: new URL(
     env.VERCEL_ENV === "production"
@@ -51,6 +53,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <TRPCReactProvider>{props.children}</TRPCReactProvider>
+          <ModalProvider />
           <Toaster />
         </ThemeProvider>
       </body>
