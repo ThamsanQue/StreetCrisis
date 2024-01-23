@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   Check,
   ChevronsUpDown,
@@ -6,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { cn } from ".";
+import { useStoreModal } from "../../../../apps/admin/hooks/use-store-modal";
 import { Button } from "./ui/button";
 import {
   Command,
@@ -19,10 +23,10 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 export default function StoreSwitcher() {
+  const storeModal = useStoreModal();
+  const [open, setOpen] = useState(false);
   return (
-    <Popover
-    // open={open} onOpenChange={setOpen}
-    >
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -68,10 +72,10 @@ export default function StoreSwitcher() {
           <CommandList>
             <CommandGroup>
               <CommandItem
-              // onSelect={() => {
-              //   setOpen(false);
-              //   storeModal.onOpen();
-              // }}
+                onSelect={() => {
+                  setOpen(false);
+                  storeModal.onOpen();
+                }}
               >
                 <PlusCircle className="mr-2 h-5 w-5" />
                 Create Store
