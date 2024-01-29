@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/ui/button";
+import Button from "@/components/ui/button2";
 import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
 import axios from "axios";

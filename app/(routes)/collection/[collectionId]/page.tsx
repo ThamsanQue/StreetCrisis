@@ -1,4 +1,4 @@
-import getCategory from "@/actions/get-category";
+import getCollection from "@/actions/get-collection";
 import getColors from "@/actions/get-colors";
 import getProducts from "@/actions/get-products";
 import getSizes from "@/actions/get-sizes";
@@ -10,9 +10,9 @@ import ProductCard from "@/components/ui/product-card";
 import MobileFilters from "./components/mobile-filters";
 
 export const revalidate = 0;
-interface CategoryPageProps {
+interface CollectionPageProps {
   params: {
-    categoryId: string;
+    collectionId: string;
   };
   searchParams: {
     colorId: string;
@@ -20,23 +20,25 @@ interface CategoryPageProps {
   };
 }
 
-const CategoryPage: React.FC<CategoryPageProps> = async ({
+const CollectionPage: React.FC<CollectionPageProps> = async ({
   params,
   searchParams,
 }) => {
   const products = await getProducts({
-    categoryId: params.categoryId,
+    collectionId: params.collectionId,
     colorId: searchParams.colorId,
     sizeId: searchParams.sizeId,
   });
 
   const sizes = await getSizes();
   const colors = await getColors();
-  const category = await getCategory(params.categoryId);
+  const collection = await getCollection(params.collectionId);
+
+  console.log(products);
   return (
     <div className="bg-white">
       <Container>
-        <Billboard data={category.billboard} />
+        <Billboard data={collection.billboard} />
         <div className="px-4 sm:px-6 lg:px-8 pb-24">
           <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
             <MobileFilters sizes={sizes} colors={colors} />
@@ -59,4 +61,4 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   );
 };
 
-export default CategoryPage;
+export default CollectionPage;

@@ -4,7 +4,7 @@ export interface Billboard {
   imageUrl: string;
 }
 
-export interface Category {
+export interface Collection {
   id: string;
   name: string;
   billboard: Billboard;
@@ -12,13 +12,15 @@ export interface Category {
 
 export interface Product {
   id: string;
-  category: Category;
+  collection: Collection;
   name: string;
+  description: string;
   price: string;
   isFeatured: boolean;
   size: Size;
   color: Color;
   image: Image[];
+  look: Look;
 }
 
 export interface Image {
@@ -35,4 +37,9 @@ export interface Color {
   id: string;
   name: string;
   value: string;
+}
+
+export interface Look {
+  id: string;
+  name: string;
 }
