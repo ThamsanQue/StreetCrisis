@@ -20,15 +20,17 @@ interface MainNavProps {
 const MainNav: React.FC<MainNavProps> = ({ data }) => {
   const pathname = usePathname();
   const routes = data.map((route) => ({
-    href: `/collection/${route.id}`,
+    href: `/home/collection/${route.id}`,
     label: route.name,
-    active: pathname === `/collection/${route.id}`,
+    active: pathname === `home/collection/${route.id}`,
   }));
   return (
     <NavigationMenu className="mx-6 flex items-center space-x-4 lg:space-x-6">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Collections</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="text-md font-medium">
+            Collections
+          </NavigationMenuTrigger>
           <NavigationMenuContent className="grid w-[200px] gap-3 p-4 md:w-[300px] md:grid-cols-2 lg:w-[400px]">
             {routes.map((route) => (
               <NavigationMenuLink
