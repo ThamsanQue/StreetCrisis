@@ -22,7 +22,7 @@ const CartPage: FC<CartPageProps> = (props) => {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-[url('../Assets/monosc3.png')] bg-no-repeat bg-center bg-cover h-screen">
       <Container>
         <div className="px-4  py-16 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold text-black">Shopping Cart</h1>

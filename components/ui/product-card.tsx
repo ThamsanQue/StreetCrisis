@@ -11,38 +11,38 @@ import usePreviewModal from "@/hooks/use-preview";
 import useCart from "@/hooks/use-cart";
 
 interface ProductCard {
-  data: Product;
+  product: Product;
 }
 
-const ProductCard: React.FC<ProductCard> = ({ data }) => {
+const ProductCard: React.FC<ProductCard> = ({ product }) => {
   const cart = useCart();
   const previewModal = usePreviewModal();
   const router = useRouter();
   const handleClick = () => {
-    router.push(`home/product/${data?.id}`);
+    router.push(`/home/product/${product?.id}`);
   };
 
   const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
 
-    previewModal.onOpen(data);
+    previewModal.onOpen(product);
   };
 
   const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
 
-    cart.addItem(data);
+    cart.addItem(product);
   };
 
   return (
     <div
       onClick={handleClick}
-      className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4"
+      className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4 shadow-lg"
     >
       <div className="aspect-square rounded-xl bg-gray-100 relative">
         <Image
           className="aspect-square object-scale-down rounded-md"
-          src={data?.image?.[0]?.url}
+          src={product?.image?.[0]?.url}
           alt="Product Image"
           fill
         />
@@ -60,10 +60,10 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
         </div>
       </div>
       <div>
-        <p className="font-semibold text-lg">{data.name}</p>
-        <p className="text-sm text-gray-500">{data.collection?.name}</p>
+        <p className="font-semibold text-lg">{product.name}</p>
+        <p className="text-sm text-gray-500">{product.collection?.name}</p>
         <div className="flex  items-center justify-between">
-          <Currency value={data?.price} />
+          <Currency value={product?.price} />
         </div>
       </div>
     </div>

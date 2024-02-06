@@ -10,7 +10,7 @@ const Navbar = async () => {
   const collections = await getCollections();
 
   return (
-    <div className="border-b">
+    <div className="">
       <Container>
         <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center">
           <Link href="/home" className="ml-4 flex lg:ml-0 gap-x-2">

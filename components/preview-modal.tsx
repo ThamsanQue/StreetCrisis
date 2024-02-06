@@ -19,7 +19,7 @@ export const PreviewModal = () => {
           <Gallery image={product.image} className="object-scale-down" />
         </div>
         <div className="sm:col-span-8 lg:col-span-7">
-          <Info data={product} />
+          <Info product={product} />
         </div>
       </div>
     </Modal>

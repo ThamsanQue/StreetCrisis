@@ -34,7 +34,7 @@ const EntrancePage = () => {
       </div>
       <div className="h-screen bg-[url('../Assets/SCback.png')] bg-no-repeat bg-center bg-cover">
         <Button
-          className="fixed top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 shadow-lg"
+          className="fixed top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 shadow-lg text-slate-900"
           onClick={() => router.push("home/")}
         >
           Enter The World Of StreetCrisis

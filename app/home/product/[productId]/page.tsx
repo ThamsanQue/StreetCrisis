@@ -1,14 +1,15 @@
 import getProduct from "@/actions/get-product";
 import Gallery from "@/components/gallery";
 
-import Button from "@/components/ui/button2";
+// import Button from "@/components/ui/button2";
 import Container from "@/components/ui/container";
 import Currency from "@/components/ui/currency";
-import { ShoppingCart } from "lucide-react";
+// import { ShoppingCart } from "lucide-react";
 
 import TagDrawer from "@/components/drawers/tagDrawer";
 import getProducts from "@/actions/get-products";
 import ProductList from "@/components/product-list";
+import AddToCart from "@/app/home/cart/components/add-to-cart";
 
 interface ProductPageProps {
   params: {
@@ -33,7 +34,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-[url('../Assets/monosc3.png')] bg-no-repeat bg-center bg-cover">
       <Container>
         <div className="px-4 py-10 sm:px-6 lg:px-8 ">
           <div className="lg:grid lg:grid-cols-3 lg:items-start lg:start lg:gap-x-8">
@@ -72,10 +73,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
                   </p>
                 </div>
                 <div className="flex flex-col justify-end h-full">
-                  <Button className="flex items-center gap-x-2 ">
-                    Add To Cart
-                    <ShoppingCart size={20} />
-                  </Button>
+                  <AddToCart product={product} />
                 </div>
               </div>
             </div>

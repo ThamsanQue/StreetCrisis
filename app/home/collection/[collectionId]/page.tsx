@@ -36,7 +36,7 @@ const CollectionPage: React.FC<CollectionPageProps> = async ({
 
   console.log(products);
   return (
-    <div className="bg-white">
+    <div className="bg-[url('../Assets/ScWallpaper3.png')] bg-no-repeat bg-center bg-cover">
       <Container>
         <Billboard data={collection.billboard} />
         <div className="px-4 sm:px-6 lg:px-8 pb-24">
@@ -50,7 +50,7 @@ const CollectionPage: React.FC<CollectionPageProps> = async ({
               {products.length === 0 && <NoResults />}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {products.map((item) => (
-                  <ProductCard key={item.id} data={item} />
+                  <ProductCard key={item.id} product={item} />
                 ))}
               </div>
             </div>

@@ -8,7 +8,6 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
@@ -33,7 +32,7 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
           </NavigationMenuTrigger>
           <NavigationMenuContent className="grid w-[200px] gap-3 p-4 md:w-[300px] md:grid-cols-2 lg:w-[400px]">
             {routes.map((route) => (
-              <NavigationMenuLink
+              <Link
                 key={route.href}
                 href={route.href}
                 className={cn(
@@ -42,7 +41,7 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
                 )}
               >
                 {route.label}
-              </NavigationMenuLink>
+              </Link>
             ))}
           </NavigationMenuContent>
         </NavigationMenuItem>

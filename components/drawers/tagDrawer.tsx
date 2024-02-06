@@ -15,25 +15,22 @@ import { Button } from "../ui/button";
 import { ShoppingCart, Tag } from "lucide-react";
 import { Product } from "@/types";
 import Currency from "../ui/currency";
-import useCart from "@/hooks/use-cart";
+import AddToCart from "@/app/home/cart/components/add-to-cart";
 
 interface TagDrawerProps {
   product: Product;
 }
 
 const TagDrawer: React.FC<TagDrawerProps> = ({ product }) => {
-  const cart = useCart();
-
-  const onAddToCart = () => {
-    cart.addItem(product);
-  };
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const { AddToCartBtn } = AddToCart({ product });
+
   return (
     <>
       {!isDesktop && (
         <Drawer>
           <DrawerTrigger>
-            <Button className="flex items-center gap-x-2">
+            <Button className="flex items-center gap-x-2 text-slate-900">
               <Tag />
             </Button>
           </DrawerTrigger>
@@ -63,13 +60,7 @@ const TagDrawer: React.FC<TagDrawerProps> = ({ product }) => {
             </div>
 
             <DrawerFooter>
-              <Button
-                className="flex items-center gap-x-2"
-                onClick={onAddToCart}
-              >
-                Add To Cart
-                <ShoppingCart size={20} />
-              </Button>
+              {<AddToCart product={product} />}
               <DrawerClose>
                 <Button variant="outline" className="w-full">
                   Cancel
