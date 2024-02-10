@@ -1,5 +1,6 @@
 "use client";
 
+import Checkout from "@/components/checkout";
 import { PreviewModal } from "@/components/preview-modal";
 import { useEffect, useState } from "react";
 
@@ -17,6 +18,7 @@ export const ModalProvider = () => {
   return (
     <>
       <PreviewModal />
+      <Checkout />
     </>
   );
 };

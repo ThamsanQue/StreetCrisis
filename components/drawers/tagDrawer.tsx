@@ -12,7 +12,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "../ui/button";
-import { ShoppingCart, Tag } from "lucide-react";
+import { Tag } from "lucide-react";
 import { Product } from "@/types";
 import Currency from "../ui/currency";
 import AddToCart from "@/app/home/cart/components/add-to-cart";
@@ -23,7 +23,6 @@ interface TagDrawerProps {
 
 const TagDrawer: React.FC<TagDrawerProps> = ({ product }) => {
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const { AddToCartBtn } = AddToCart({ product });
 
   return (
     <>
@@ -60,7 +59,7 @@ const TagDrawer: React.FC<TagDrawerProps> = ({ product }) => {
             </div>
 
             <DrawerFooter>
-              {<AddToCart product={product} />}
+              <AddToCart product={product} />
               <DrawerClose>
                 <Button variant="outline" className="w-full">
                   Cancel
