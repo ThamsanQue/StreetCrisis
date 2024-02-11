@@ -8,9 +8,9 @@ import useCart from "@/hooks/use-cart";
 import useCheckoutModal from "@/hooks/use-checkout";
 import useDrawer from "@/hooks/useDrawer";
 import useMediaQuery from "@/hooks/useMediaQuery";
-// import axios from "axios";
+import axios from "axios";
 import { useSearchParams } from "next/navigation";
-import { MouseEventHandler, useEffect } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import {
   Drawer,
@@ -26,15 +26,37 @@ import { Label } from "@/components/ui/label";
 import { Copy } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { DELIVERY_FEE, useTotalPrice } from "../utils/cart";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 
+const phoneRegex = /^\d{10}$/;
+export const formSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+  address: z.string().min(1, { message: "Address is required" }),
+  city: z.string().min(1, { message: "City is required" }),
+  zipCode: z.string().min(1, { message: "Zip code is required" }),
+  phone: z.string().refine((value) => phoneRegex.test(value), {
+    message: "Invalid phone number",
+  }),
+});
+export type deliveryFormValues = z.infer<typeof formSchema>;
 const Summary = () => {
   // const searchParams = useSearchParams();
   const items = useCart((state) => state.items);
-  // const removeAll = useCart((state) => state.removeAll);
+  const removeAll = useCart((state) => state.removeAll);
   const checkoutModal = useCheckoutModal();
-  const drawerTrigger = useDrawer();
+  // const drawerTrigger = useDrawer();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const totalPrice = useTotalPrice();
+  const [loading, setLoading] = useState(false);
 
   // useEffect(() => {
   //   if (searchParams.get("success")) {
@@ -46,16 +68,37 @@ const Summary = () => {
   //     toast.error("Something went wrong");
   //   }
   // }, [searchParams, removeAll]);
-  // const onCheckout = async () => {
-  //   const res = await axios.post(
-  //     `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
-  //     {
-  //       productIds: items.map((item) => item.id),
-  //     }
-  //   );
-
-  //   window.location = res.data.url;
-  // };
+  const onCheckout = async (data: deliveryFormValues) => {
+    const address = `${data.address}, ${data.city}, ${data.zipCode}`;
+    const phone = data.phone;
+    const totalPriceString = JSON.stringify(totalPrice);
+    try {
+      setLoading(true);
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+        productIds: items.map((item) => item.id),
+        totalPrice: totalPriceString,
+        address,
+        phone,
+      });
+      setLoading(false);
+      removeAll();
+      const ShippingDetails = {
+        content: `New Order Received\n\nName: ${data.name}\nAddress: ${address}\nPhone: ${phone}`,
+      };
+      await axios.post(
+        `https://discordapp.com/api/webhooks/${process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_ID}/${process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_TOKEN}`,
+        ShippingDetails
+      );
+      toast.success(
+        "Delivery Details received. Redirecting to Street Continental..."
+      );
+      window.location.href = "https://discord.gg/DfDhCzPdM6";
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
@@ -65,6 +108,17 @@ const Summary = () => {
     navigator.clipboard.writeText(item);
     toast.success(`${name} copied to clipboard.`);
   };
+
+  const form = useForm<deliveryFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      address: "",
+      city: "",
+      zipCode: "",
+      phone: "",
+    },
+  });
   return (
     <div className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6  lg:col-span-5 lg:mt-0 lg:p-8">
       <h2 className="text-lg font-medium text-gray-900">Order Summary</h2>
@@ -167,7 +221,7 @@ const Summary = () => {
                 <Label className="sr-only" htmlFor="swift-code">
                   Branch Code
                 </Label>
-                <span className="block w-full px-3 py-2 text-gray-900 rounded-b-md sm:text-sm">
+                <span className="block w-full px-3 py-2 text-gray-900  sm:text-sm">
                   Branch Code: 683000
                 </span>
                 <Button
@@ -183,7 +237,7 @@ const Summary = () => {
                 <Label className="sr-only" htmlFor="Total Code">
                   Total Price
                 </Label>
-                <span className="block w-full px-3 py-2 text-gray-900 rounded-b-md sm:text-sm">
+                <span className="block w-full px-3 py-2 text-gray-900  sm:text-sm">
                   Total Price: {totalPrice}
                 </span>
                 <Button
@@ -200,97 +254,123 @@ const Summary = () => {
               <h3 className="px-3 py-2 text-gray-900 border border-gray-300 rounded-t-md sm:text-sm">
                 Shipping Details
               </h3>
-              <form className="mt-8 space-y-6">
-                <div className="rounded-md shadow-sm -space-y-px">
-                  <div>
-                    <Label className="sr-only" htmlFor="name">
-                      Full Name
-                    </Label>
-                    <Input
-                      className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-black-500 focus:border-black-500 focus:z-10 sm:text-sm"
-                      id="name"
-                      name="name"
-                      placeholder="Full Name"
-                      required
-                      type="text"
-                    />
+              <Form {...form}>
+                <form
+                  className="mt-8 space-y-6"
+                  onSubmit={form.handleSubmit(onCheckout)}
+                  id="delivery-form"
+                >
+                  <div className="rounded-md shadow-sm -space-y-px">
+                    <div>
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                disabled={loading}
+                                placeholder="Full Name"
+                                {...field}
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-black-500 focus:border-black-500 focus:z-10 sm:text-sm"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div>
+                      <FormField
+                        control={form.control}
+                        name="address"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                disabled={loading}
+                                placeholder="Address"
+                                {...field}
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-black-500 focus:border-black-500 focus:z-10 sm:text-sm"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div>
+                      <FormField
+                        control={form.control}
+                        name="city"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                disabled={loading}
+                                placeholder="City"
+                                {...field}
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-black-500 focus:border-black-500 focus:z-10 sm:text-sm"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div>
+                      <FormField
+                        control={form.control}
+                        name="zipCode"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                disabled={loading}
+                                placeholder="Postal Code"
+                                {...field}
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-black-500 focus:border-black-500 focus:z-10 sm:text-sm"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div>
+                      <FormField
+                        control={form.control}
+                        name="phone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                disabled={loading}
+                                placeholder="Phone Number"
+                                {...field}
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border rounded-b-md border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-black-500 focus:border-black-500 focus:z-10 sm:text-sm"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div></div>
                   </div>
-                  <div>
-                    <Label className="sr-only" htmlFor="address">
-                      Address
-                    </Label>
-                    <Input
-                      className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black-500 focus:border-black-500 focus:z-10 sm:text-sm"
-                      id="address"
-                      name="address"
-                      placeholder="Address"
-                      required
-                      type="text"
-                    />
-                  </div>
-                  <div>
-                    <Label className="sr-only" htmlFor="city">
-                      City
-                    </Label>
-                    <Input
-                      className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black-500 focus:border-black-500 focus:z-10 sm:text-sm"
-                      id="city"
-                      name="city"
-                      placeholder="City"
-                      required
-                      type="text"
-                    />
-                  </div>
-                  <div>
-                    <Label className="sr-only" htmlFor="postal-code">
-                      Postal Code
-                    </Label>
-                    <Input
-                      className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black-500 focus:border-black-500 focus:z-10 sm:text-sm"
-                      id="postal-code"
-                      name="postal-code"
-                      placeholder="Postal Code"
-                      required
-                      type="text"
-                    />
-                  </div>
-                  <div>
-                    <Label className="sr-only" htmlFor="country">
-                      Country
-                    </Label>
-                    <Input
-                      className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black-500 focus:border-black-500 focus:z-10 sm:text-sm"
-                      id="country"
-                      name="country"
-                      placeholder="Country"
-                      required
-                      type="text"
-                    />
-                  </div>
-                  <div>
-                    <Label className="sr-only" htmlFor="contact">
-                      Contact Information
-                    </Label>
-                    <Input
-                      className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-black-500 focus:border-black-500 focus:z-10 sm:text-sm"
-                      id="contact"
-                      name="contact"
-                      placeholder="Contact Information"
-                      required
-                      type="text"
-                    />
-                  </div>
-                  <div></div>
-                </div>
-              </form>
+                </form>
+              </Form>
             </div>
 
             <DrawerFooter>
               <Button
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black"
                 type="submit"
+                form="delivery-form"
+                disabled={loading}
               >
-                Mark as paid
+                Continue to Street Continental
               </Button>
               <DrawerClose>
                 <Button variant="outline" className="w-full">
