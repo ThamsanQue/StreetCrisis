@@ -29,7 +29,7 @@ const EntrancePage = () => {
         />
 
         <p className={cn("text-3xl text-primary", myFont.className)}>
-          Unleash Creativity
+          For The Dreamers
         </p>
       </div>
       <div className="h-screen bg-[url('../Assets/SCback.png')] bg-no-repeat bg-center bg-cover">
