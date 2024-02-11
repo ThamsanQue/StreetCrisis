@@ -2,11 +2,11 @@
 
 import Container from "@/components/ui/container";
 import Image from "next/image";
-import SClogo from "../Assets/scLogo.png";
+import scLogo from "../Assets/scLogo.png";
 import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const revalidate = 0;
 
@@ -16,12 +16,11 @@ const myFont = localFont({
 });
 
 const EntrancePage = () => {
-  const router = useRouter();
   return (
     <Container>
       <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
         <Image
-          src={SClogo}
+          src={scLogo}
           alt="logo"
           width={50}
           height={50}
@@ -33,12 +32,11 @@ const EntrancePage = () => {
         </p>
       </div>
       <div className="h-screen bg-[url('../Assets/SCback.png')] bg-no-repeat bg-center bg-cover">
-        <Button
-          className="fixed top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 shadow-lg text-slate-900"
-          onClick={() => router.push("home/")}
-        >
-          Enter The World Of StreetCrisis
-        </Button>
+        <Link href={"/home/"}>
+          <Button className="fixed top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 shadow-lg text-slate-900">
+            Enter The World Of StreetCrisis
+          </Button>
+        </Link>
       </div>
     </Container>
   );

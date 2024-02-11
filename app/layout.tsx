@@ -8,8 +8,8 @@ import Footer from "@/components/footer";
 const urbanist = Urbanist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Store-Front",
-  description: "Store-Front by ThamsanqaJ",
+  title: "StreetCrisis Store",
+  description: "StreetWear Brand For The Dreamers",
 };
 
 export default function RootLayout({
