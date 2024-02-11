@@ -20,7 +20,6 @@ const Navbar = async () => {
               width={50}
               height={50}
               className="rounded-md"
-              layout="responsive"
             />
           </Link>
           <MainNav data={collections} />
