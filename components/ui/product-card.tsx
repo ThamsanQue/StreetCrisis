@@ -30,8 +30,8 @@ const ProductCard: React.FC<ProductCard> = ({ product }) => {
   };
 
   return (
-    <Link href={`/home/product/${product?.id}`}>
-      <div className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4 shadow-lg">
+    <div className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4 shadow-lg">
+      <Link href={`/home/product/${product?.id}`}>
         <div className="aspect-square rounded-xl bg-gray-100 relative">
           <Image
             className="aspect-square object-scale-down rounded-md"
@@ -59,8 +59,8 @@ const ProductCard: React.FC<ProductCard> = ({ product }) => {
             <Currency value={product?.price} />
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 };
 
