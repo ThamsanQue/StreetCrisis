@@ -17,8 +17,10 @@ const Navbar = async () => {
             <Image
               src={SClogo}
               alt="logo"
-              fill
-              className="rounded-md w-10 h-10"
+              width={50}
+              height={50}
+              className="rounded-md"
+              layout="responsive"
             />
           </Link>
           <MainNav data={collections} />
