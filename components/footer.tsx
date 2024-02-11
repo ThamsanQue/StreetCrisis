@@ -5,15 +5,15 @@ const Footer = () => {
         <p className="text-center text-sm text-black">
           © {new Date().getFullYear()}{" "}
           <span className="text-primary">StreetCrisis Store</span>. All rights
-          reserved - Built by
+          reserved - Powered by
           <a
-            href="https://thamsanqaj-fea43.web.app/"
+            href="https://openkommerce.africa"
             target="_blank"
             rel="noreferrer"
             className="text-primary"
           >
             {" "}
-            Thamsanqa J
+            OpenKommerce
           </a>
         </p>
       </div>
