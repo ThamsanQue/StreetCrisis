@@ -36,6 +36,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import Link from "next/link";
 
 const phoneRegex = /^\d{10}$/;
 export const formSchema = z.object({
@@ -165,91 +166,7 @@ const Summary = () => {
                 proof of payment and track your order.
               </DrawerDescription>
             </DrawerHeader>
-            <div className="rounded-md shadow-sm -space-y-px mt-6 px-4">
-              <h3 className="px-3 py-2 text-gray-900 border border-gray-300 rounded-t-md sm:text-sm">
-                Payment Details
-              </h3>
-              <div className="flex justify-between border border-gray-300 py-1">
-                <Label className="sr-only" htmlFor="bank-name">
-                  Bank Name
-                </Label>
-                <span className="block w-full px-3 py-2 text-gray-900  sm:text-sm">
-                  Bank Name: Sasfin
-                </span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => onCopy("Sasfin", "Bank Name")}
-                  className="mr-2"
-                >
-                  <Copy className="h-4 w-4 " />
-                </Button>
-              </div>
-              <div className="flex justify-between border border-gray-300 py-1">
-                <Label className="sr-only" htmlFor="account-name">
-                  Account Name
-                </Label>
-                <span className="block w-full px-3 py-2 text-gray-900 sm:text-sm">
-                  Account Name: Thamsanqa J Ncube
-                </span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => onCopy("Thamsanqa J Ncube", "Account Name")}
-                  className="mr-2"
-                >
-                  <Copy className="h-4 w-4 " />
-                </Button>
-              </div>
-              <div className="flex justify-between border border-gray-300 py-1">
-                <Label className="sr-only" htmlFor="account-number">
-                  Account Number
-                </Label>
-                <span className="block w-full px-3 py-2 text-gray-900  sm:text-sm">
-                  Account Number: 78602107414
-                </span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => onCopy("78602107414", "Account Number")}
-                  className="mr-2"
-                >
-                  <Copy className="h-4 w-4 " />
-                </Button>
-              </div>
-              <div className="flex justify-between border border-gray-300 py-1">
-                <Label className="sr-only" htmlFor="swift-code">
-                  Branch Code
-                </Label>
-                <span className="block w-full px-3 py-2 text-gray-900  sm:text-sm">
-                  Branch Code: 683000
-                </span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => onCopy("683000", "Branch Code")}
-                  className="mr-2"
-                >
-                  <Copy className="h-4 w-4 " />
-                </Button>
-              </div>
-              <div className="flex justify-between border border-gray-300 py-1">
-                <Label className="sr-only" htmlFor="Total Code">
-                  Total Price
-                </Label>
-                <span className="block w-full px-3 py-2 text-gray-900  sm:text-sm">
-                  Total Price: {totalPrice}
-                </span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => onCopy(`${totalPrice}`, "Total Price")}
-                  className="mr-2"
-                >
-                  <Copy className="h-4 w-4 " />
-                </Button>
-              </div>
-            </div>
+
             <div className="rounded-md shadow-sm -space-y-px mt-6 px-4">
               <h3 className="px-3 py-2 text-gray-900 border border-gray-300 rounded-t-md sm:text-sm">
                 Shipping Details
@@ -364,6 +281,14 @@ const Summary = () => {
             </div>
 
             <DrawerFooter>
+              <Link href="https://pay.yoco.com/streetcrisis" target="_blank">
+                <Button
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-[#36A0DB]"
+                  disabled={loading}
+                >
+                  Pay Now
+                </Button>
+              </Link>
               <Button
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black"
                 type="submit"
