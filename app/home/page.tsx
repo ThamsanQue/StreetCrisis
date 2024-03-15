@@ -8,7 +8,7 @@ export const revalidate = 0;
 
 const Home = async () => {
   const products = await getProducts({ isFeatured: true });
-  const billboard = await getBillboard("f01fb976-b624-4133-a870-0c4fd5a79cab");
+  const billboard = await getBillboard("00e94af8-167e-4cb1-a80e-885689ddda94");
   return (
     <div className="bg-[url('../Assets/monosc3.png')] bg-no-repeat bg-center bg-cover ">
       <Container>
